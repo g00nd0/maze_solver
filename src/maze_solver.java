@@ -1,7 +1,7 @@
 //import java.util.*;
 import java.util.LinkedList;
 
-//Day 9 - start of Maze Solver, 30 days of java Caleb Curry
+//Day 12 - Refactoring examples, with Maze Solver app, 30 days of java Caleb Curry
 
 public class maze_solver {
 
@@ -22,7 +22,20 @@ public class maze_solver {
 
     public static void main(String[] args) {
 
-        Position p = new Position(1,12); //intitalize start postion, element at row,col
+        if(solve_maze(new Position(4,8))) {   // refactored, 
+            System.out.println("You won!");
+        } else{
+            System.out.println("no path");  // therefore no path to finish maze :(
+        };
+
+
+        //Position p = new Position(1,12); //intitalize start postion, element at row,col
+        
+        //System.out.println(path.peek(x));
+        
+    }
+
+    private static boolean solve_maze(Position p){ // create private method for solving maze, is there a way to invoke methods from VS Code?
         path.push(p);
                
         while(true){
@@ -36,8 +49,8 @@ public class maze_solver {
             if(isValid(y+1, x)){
                 
                 if(maze[y+1][x] == 2){ //y+1 means moving down, if lands on 2, desitination reached
-                System.out.println("Moved down, You Won!");
-                return;
+                System.out.println("Moved down");
+                return true;
                 }else if(maze[y+1][x] == 1){ //if lands on 1, move in direction in this if else
                 System.out.println("Moved Down");
                 path.push(new Position(y+1,x));
@@ -49,8 +62,8 @@ public class maze_solver {
             if(isValid(y, x-1)){
                 
                 if(maze[y][x-1] == 2){ //x-1 means moving left
-                System.out.println("Moved left, You Won!");
-                return;
+                System.out.println("Moved left");
+                return true;
                 }else if(maze[y][x-1] == 1){ 
                 System.out.println("Moved left");
                 path.push(new Position(y,x-1));
@@ -62,8 +75,8 @@ public class maze_solver {
             if(isValid(y-1, x)){
                 
                 if(maze[y-1][x] == 2){ //y-1 means moving up
-                System.out.println("Moved up, You Won!");
-                return;
+                System.out.println("Moved up");
+                return true;
                 }else if(maze[y-1][x] == 1){
                 System.out.println("Moved up");
                 path.push(new Position(y-1,x));
@@ -74,8 +87,8 @@ public class maze_solver {
              //right
             if(isValid(y, x+1)){ 
                 if(maze[y][x+1] == 2){ //x+1 means moving right
-                System.out.println("Moved right, You Won!");
-                return;
+                System.out.println("Moved right");
+                return true;
                 }else if(maze[y][x+1] == 1){
                 System.out.println("Moved right");
                 path.push(new Position(y,x+1));
@@ -86,12 +99,9 @@ public class maze_solver {
             path.pop(); //remove latest value off stack, to move to prev position
             System.out.println("moved back");
             if(path.size() <= 0) {  //if size of linkedlist is 0 or less, means stack is empty, therefore it has backtracked and exhausted all paths
-                System.out.println("no path");  // therefore no path to finish maze :(
-                return;
+                return false;   // return false, then handle the outcome from main method
             }
         }
-        //System.out.println(path.peek(x));
-        
     }
 
     public static boolean isValid(int y, int x){
