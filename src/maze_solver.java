@@ -1,6 +1,10 @@
+
 //import java.util.*;
-import java.util.LinkedList;
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 //Day 13 - Intro to OOP, with Maze Solver app, 30 days of java Caleb Curry
 
@@ -11,43 +15,27 @@ public class maze_solver {
     //2 = destination
 
     //static LinkedList<Position> path = new LinkedList<Position>(); //stack keeps track of position of valid paths in maze
-    //line above not needed, as maze class has been created to handle object creation
+    //line above not needed, as Maze class has been created to handle object creation
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws FileNotFoundException {
+ 
         ArrayList<Maze> mazes = new ArrayList<Maze>(); //array list created so thay app can solve multiple mazes, saved in array list
+        
         Maze m = new Maze();
 
-        int[][] maze = {
-            {0,1,1,1,0,1,0,0,0,1,1,0,1,1},
-            {1,1,2,0,0,1,0,1,1,1,1,0,1,1},
-            {1,0,0,1,1,1,0,1,0,1,1,0,0,1},
-            {1,1,1,1,0,1,0,1,0,1,1,1,1,1},
-            {1,0,1,1,0,1,1,1,0,1,1,0,1,1},
-            {1,0,0,1,0,0,0,0,1,1,1,0,1,1}
-        };
+        //fill list from file
+        Scanner in = new Scanner(new File("mazes.txt")); //takes file input from Scanner
+        int rows = Integer.parseInt(in.nextLine()); //checks number of rows in input file, in this case it is defined in at the first line of txt file
+        m.maze = new int[rows][]; //initialse rows
 
-        m.maze = maze;
-        m.start = new Position(4,8);
-        m.path = new LinkedList<Position>();
+        for(int i = 0; i < rows; i++){ //iterate thru file, row by row
+            String line = in.nextLine(); //new String type to read array as a line
+            m.maze[i] = Arrays.stream(line.split(", ")).mapToInt(Integer::parseInt).toArray(); // read each element of array, convert to int, after ","
+        }
 
-        Maze n = new Maze();
-
-        int[][] n_maze = {
-            {0,1,1,1,0,1,0,0,0,1,1,0,1,1},
-            {1,1,2,0,0,1,0,1,1,1,1,0,1,1},
-            {1,0,0,1,1,1,0,1,0,1,1,0,0,1},
-            {1,1,1,1,0,1,0,1,0,1,1,1,1,1},
-            {1,0,1,1,0,1,1,1,0,1,1,0,1,1},
-            {1,0,0,1,0,0,0,0,1,1,1,0,1,1}
-        };
-
-        n.maze = n_maze;
-        n.start = new Position(4,8);
-        n.path = new LinkedList<Position>();
-
-        mazes.add(m);
-        mazes.add(n);
+        m.start = new Position(Integer.parseInt(in.nextLine()), Integer.parseInt(in.nextLine())); //define start position from txt file 
+    
+        mazes.add(m); // adding maze from txt file to array list
 
         int i = 0;
         while(i < mazes.size()){    // this loop goes executes the number of iterations equal to the size of 'mazes' array list
@@ -57,14 +45,7 @@ public class maze_solver {
                 System.out.println("no path");  // therefore no path to finish maze :(
             }
             i++;
-        }
-    
-
-
-        //Position p = new Position(1,12); //intitalize start postion, element at row,col
-        
-        //System.out.println(path.peek(x));
-        
+        }       
     }
 
     private static boolean solve_maze(Maze m){ // create private method for solving maze, is there a way to invoke methods from VS Code?
