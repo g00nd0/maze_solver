@@ -7,3 +7,12 @@
 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 1
 4
 8
+(end)
+4
+0, 1, 1, 1, 0, 1, 0
+1, 1, 2, 0, 1, 1, 1
+1, 1, 0, 1, 1, 1, 0
+0, 1, 1, 1, 0, 0, 0
+1
+6
+(end) // this end line is to signify end of data set, method will disregard last line after reading coordinates
